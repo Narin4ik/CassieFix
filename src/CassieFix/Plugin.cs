@@ -15,7 +15,7 @@ namespace CassieFix
         public override string Name => "CassieFix";
         public override string Author => "Narin";
         public override Version Version => new Version(1, 0, 0);
-        public override Version RequiredExiledVersion => new Version(9, 15, 3);
+        public override Version RequiredExiledVersion => new Version(9, 15, 0);
 
         public override void OnEnabled()
         {

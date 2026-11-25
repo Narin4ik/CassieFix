@@ -6,28 +6,17 @@ namespace CassieFix
     using Exiled.API.Features;
     using HarmonyLib;
 
-    /// <summary>
-    /// Applies the server-side CASSIE payload fix.
-    /// </summary>
     public sealed class CassieFixPlugin : Plugin<Config>
     {
         private const string HarmonyId = "com.narin.cassiefix";
 
         private Harmony? harmony;
 
-        /// <inheritdoc />
         public override string Name => "CassieFix";
-
-        /// <inheritdoc />
         public override string Author => "Narin";
-
-        /// <inheritdoc />
         public override Version Version => new Version(1, 0, 0);
-
-        /// <inheritdoc />
         public override Version RequiredExiledVersion => new Version(9, 15, 3);
 
-        /// <inheritdoc />
         public override void OnEnabled()
         {
             var target = AccessTools.Method(typeof(CassieTtsPayload), nameof(CassieTtsPayload.WriteSelf));
@@ -55,7 +44,6 @@ namespace CassieFix
             base.OnEnabled();
         }
 
-        /// <inheritdoc />
         public override void OnDisabled()
         {
             harmony?.UnpatchAll(HarmonyId);

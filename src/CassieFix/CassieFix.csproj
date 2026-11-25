@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>CassieFix</AssemblyName>
+    <RootNamespace>CassieFix</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>Narin</Authors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Exiled.API" HintPath="$(ExiledApiPath)" Private="false" />
+    <Reference Include="Assembly-CSharp" HintPath="$(ScpslManagedDir)/Assembly-CSharp.dll" Private="false" />
+    <Reference Include="Mirror" HintPath="$(ScpslManagedDir)/Mirror.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(HarmonyPath)" Private="false" />
+  </ItemGroup>
+
+  <Target Name="ValidateReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(ExiledApiPath)')" Text="Set ExiledApiPath to the EXILED 9.15.3 Exiled.API.dll." />
+    <Error Condition="!Exists('$(ScpslManagedDir)/Assembly-CSharp.dll')" Text="Set ScpslManagedDir to the server SCPSL_Data/Managed directory." />
+    <Error Condition="!Exists('$(ScpslManagedDir)/Mirror.dll')" Text="Mirror.dll was not found in ScpslManagedDir." />
+    <Error Condition="!Exists('$(HarmonyPath)')" Text="Set HarmonyPath to EXILED's 0Harmony.dll (2.2.2)." />
+  </Target>
+</Project>

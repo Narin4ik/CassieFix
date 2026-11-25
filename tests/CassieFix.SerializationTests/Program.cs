@@ -13,6 +13,23 @@ namespace CassieFix.SerializationTests
 
         private static int Main()
         {
+            try
+            {
+                CheckSerializerPatch();
+                CheckPluginLifecycle();
+
+                Console.WriteLine("All CASSIE serialization checks passed.");
+                return 0;
+            }
+            catch (Exception exception)
+            {
+                Console.Error.WriteLine(exception);
+                return 1;
+            }
+        }
+
+        private static void CheckSerializerPatch()
+        {
             var harmony = new Harmony(TestHarmonyId);
 
             try
@@ -30,19 +47,28 @@ namespace CassieFix.SerializationTests
                 CheckContent(new string('A', 1024), new string('A', 1024));
                 CheckContent(new string('A', 1025), new string('A', 1025));
                 CheckCustomSubtitles();
-
-                Console.WriteLine("All CASSIE serialization checks passed.");
-                return 0;
-            }
-            catch (Exception exception)
-            {
-                Console.Error.WriteLine(exception);
-                return 1;
             }
             finally
             {
                 harmony.UnpatchAll(TestHarmonyId);
             }
+        }
+
+        private static void CheckPluginLifecycle()
+        {
+            var plugin = new CassieFixPlugin();
+            plugin.OnEnabled();
+
+            try
+            {
+                CheckContent("SCP 1 7 3", "SCP 1 7 3".PadRight(1024));
+            }
+            finally
+            {
+                plugin.OnDisabled();
+            }
+
+            CheckContent("SCP 1 7 3", "SCP 1 7 3");
         }
 
         private static void CheckContent(string original, string expectedOnWire)
